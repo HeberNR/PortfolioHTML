@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+    <title>My first portfolio</title>
+</head>
+
+<body>
+    <!-- Contenido del header -->
+    <div class="contenedor-header">
+        <header>
+            <div class="logo">
+                <a href="#">Heber</a>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home" onclick="seleccionar()">Home</a></li>
+                    <li><a href="#aboutme" onclick="seleccionar()">About Me</a></li>
+                    <li><a href="#skills" onclick="seleccionar()">Skills</a></li>
+                    <li><a href="#curriculum" onclick="seleccionar()">Curriculum</a></li>
+                    <li><a href="#works" onclick="seleccionar()">Works</a></li>
+                    <li><a href="#contact" onclick="seleccionar()">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-responsive" onclick="mostrarOcultarMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </header>
+    </div>
+    <!-- Seccion de inicio -->
+    <section id="home" class="inicio">
+        <div class="contenido-banner">
+            <img src="./img/charizard.png" alt="img perfil">
+            <h1>HEBER RAMIREZ</h1>
+            <H2>Software Development - First Year</H2>
+            <div class="redes">
+                <a href="https://www.facebook.com/heber.n.ramirez.1?locale=es_LA" target="_blank"><i
+                        class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/__heber.nahuel/" target="_blank"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="https://x.com/HeberNRamirez" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.linkedin.com/in/hebernr/" target="_blank"><i
+                        class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://github.com/HeberNR" target="_blank"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seccion sobre mi -->
+    <section id="aboutme" class="sobremi">
+        <div class="contenido-seccion">
+            <h2>About Me</h2>
+            <p><span> Hello, my name is Heber Ramirez and I am 28 years old.</span> I'm a
+                software development student, currently I'm in my first year of my degree. I have knowledge in some
+                languages like Python & Django, HTML & CSS among others. I like to spend time on my pc, either for
+                programming or playing games, I like motorcycles and watching soccer. I am self-taught and enthusiastic,
+                I have good use of soft skills like teamwork and communication.</p>
+
+            <div class="fila">
+                <!-- Mis datos personales -->
+                <div class="col">
+                    <h3>Personal Data</h3>
+                    <ul>
+                        <li>
+                            <strong>Birthday</strong>
+                            04-04-1996
+                        </li>
+                        <li>
+                            <strong>Phone</strong>
+                            3482 605057
+                        </li>
+                        <li>
+                            <strong>E-mail</strong>
+                            heber96nr@gmail.com
+                        </li>
+                        <li>
+                            <strong>Website</strong>
+                            www.example.com
+                        </li>
+                        <li>
+                            <strong>Adress</strong>
+                            Calle 4 S/N, Las Toscas - Santa Fe
+                        </li>
+                        <li>
+                            <strong>Position</strong>
+                            <span>Student - 1st year TSDS</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mis intereses -->
+                <div class="col">
+                    <h3>Intereses</h3>
+                    <div class="contenedor-intereses">
+                        <div class="intereses">
+                            <i class="fa-solid fa-gamepad"></i>
+                            <span>GAMES</span>
+                        </div>
+                        <div class="intereses">
+                            <i class="fa-solid fa-music"></i>
+                            <span>MUSIC</span>
+                        </div>
+                        <div class="intereses">
+                            <i class="fa-regular fa-futbol"></i>
+                            <span>SOCCER</span>
+                        </div>
+                        <div class="intereses">
+                            <i class="fa-solid fa-code"></i>
+                            <span>PROGRAM</span>
+                        </div>
+                        <div class="intereses">
+                            <i class="fa-solid fa-motorcycle"></i>
+                            <span>MOTORCYCLE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button>
+                Download CV <i class="fa-regular fa-circle-down"></i>
+                <span class="overlay"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Seccion de mis "skills"-->
+    <section id="skills" class="skills">
+        <div class="contenido-seccion">
+            <h2>Skills</h2>
+            <div class="fila">
+                <!-- Skills tecnicas -->
+                <div class="col">
+                    <h3>Technical Skills</h3>
+                    <div class="skills">
+                        <span>Javascript</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>40%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>HTML & CSS</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>70%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Python & Django</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>55%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Git & GitHub</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>40%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>C#</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>30%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Blender</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>50%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <h3>Soft Skills</h3>
+                    <div class="skills">
+                        <span>Communication</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Team Work</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>85%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Self-taught</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>85%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Incentive</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>90%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <span>Dedication</span>
+                        <div class="barra-skills">
+                            <div class="progreso">
+                                <span>85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seccion de mi CV-->
+    <section id="curriculum" class="curriculum">
+        <div class="contenido-seccion">
+            <h2>Curriculum</h2>
+            <div class="fila">
+                <div class="col izquierda">
+                    <h3>Education</h3>
+                    <div class="item izq">
+                        <h4>Python & Django</h4>
+                        <span class="casa">Course Informatorio - Resistencia, Chaco</span>
+                        <span class="fecha">04/2022 - 08/2022</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                    <div class="item izq">
+                        <h4>Version Control Git & GitHub</h4>
+                        <span class="casa">Course Informatorio - Resistencia, Chaco</span>
+                        <span class="fecha">04/2022 - 08/2022</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                    <div class="item izq">
+                        <h4>C#</h4>
+                        <span class="casa">Video game developer course - Resistencia, Chaco</span>
+                        <span class="fecha">12/2021 - 03/2022</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                    <div class="item izq">
+                        <h4>Blender</h4>
+                        <span class="casa">UTN course on "Video Game Developer"</span>
+                        <span class="fecha">12/2021 - 03/2022</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                </div>
+
+                <div class="col derecha">
+                    <h3 class="experiencia">Work Experience</h3>
+                    <div class="item der">
+                        <h4>Customer Service</h4>
+                        <span class="casa">Konecta</span>
+                        <span class="fecha">11/2020 - 11/2022</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                    <div class="item der">
+                        <h4>Car salesman</h4>
+                        <span class="casa">Plan Auto</span>
+                        <span class="fecha">05/2019 - 03/2020</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                    <div class="item der">
+                        <h4>Customer Service</h4>
+                        <span class="casa">Atento</span>
+                        <span class="fecha">11/2016 - 08/2018</span>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima distinctio itaque dicta.
+                            Incidunt, molestiae eaque voluptatem architecto labore provident consectetur placeat optio
+                            tenetur rem delectus, nemo quam. Odit, sunt adipisci.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seccion del portfolio-->
+    <section id="works" class="portfolio">
+        <div class="contenido-seccion">
+            <h2>WORKS</h2>
+            <div class="galeria">
+                <div class="proyecto">
+                    <a href="https://ramirez1.netlify.app/" target="_blank">
+                        <img src="./img/portfolio1.png" alt="">
+                        <div class="overlay">
+                            <h3>First design with HTML & CSS</h3>
+                            <p>Freelancer prototype</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seccion contacto-->
+    <section id="contact" class="contacto">
+        <div class="contenido-seccion">
+            <h2>CONTACT</h2>
+            <div class="fila">
+                <!-- Acá está mi formulario -->
+                <div class="col">
+                    <input type="text" placeholder="Your Name">
+                    <input type="text" placeholder="Number phone">
+                    <input type="text" placeholder="E-mail">
+                    <input type="text" placeholder="Topic">
+                    <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
+                    <button>
+                        Send Message <i class="fa-solid fa-paper-plane"></i>
+                        <span class="overlay"></span>
+                    </button>
+                </div>
+                <!-- Mapa -->
+                <div class="col">
+                    <img src="img/domicilio.png" alt="">
+                    <div class="info">
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-location-dot"></i>
+                                Street 4, Las Toscas - Santa Fe
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-mobile"></i>
+                                Call me: 3482 605057
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-envelope"></i>
+                                E-mail: heber96nr@gmail.com
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer-->
+    <footer>
+        <a href="#home" class="arriba">
+            <i class="fa-solid fa-angles-up"></i>
+        </a>
+        <div class="redes">
+            <a href="https://www.facebook.com/heber.n.ramirez.1?locale=es_LA"><i
+                    class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
