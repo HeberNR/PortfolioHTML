@@ -1,370 +1,494 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-    </style>
-    <title>My first portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heber Ramirez — Backend Java Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#1b1c1f;
+    --bg-1:#232427;
+    --bg-2:#2b2d30;
+    --bg-3:#333537;
+    --line:#3a3c3f;
+    --text-0:#e3e4e6;
+    --text-1:#a9abaf;
+    --text-2:#75777b;
+    --blue:#4C8DFF;
+    --blue-dim:#2f4a7a;
+    --amber:#e0a458;
+    --green:#6bb583;
+    --red:#d9736a;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg-0);
+    color:var(--text-0);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue);}
+
+  /* ---------- boot screen ---------- */
+  #boot{
+    position:fixed;inset:0;background:#111214;color:#8fe08f;
+    font-family:var(--mono);font-size:13px;line-height:1.7;
+    padding:28px;z-index:100;white-space:pre-wrap;
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  #boot .cursor{display:inline-block;width:7px;height:14px;background:#8fe08f;margin-left:2px;animation:blink 1s steps(1) infinite;vertical-align:-2px;}
+  @keyframes blink{50%{opacity:0;}}
+  #boot.hidden{display:none;}
+
+  /* ---------- shell ---------- */
+  #shell{display:none;min-height:100vh;flex-direction:column;}
+  #shell.ready{display:flex;}
+
+  .titlebar{
+    height:38px;flex:0 0 auto;background:var(--bg-1);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;padding:0 14px;gap:16px;
+  }
+  .dots{display:flex;gap:7px;}
+  .dots span{width:11px;height:11px;border-radius:50%;display:inline-block;}
+  .dots .r{background:#e0605a;} .dots .y{background:#e0b34e;} .dots .g{background:#5fb86a;}
+  .titlebar .path{font-family:var(--mono);font-size:12.5px;color:var(--text-1);}
+  .titlebar .status{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--text-1);display:flex;align-items:center;gap:6px;}
+  .titlebar .status .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);}
+
+  .body-row{display:flex;flex:1 1 auto;min-height:0;}
+
+  /* sidebar (file tree) */
+  nav.tree{
+    width:220px;flex:0 0 auto;background:var(--bg-1);border-right:1px solid var(--line);
+    padding:16px 0;overflow-y:auto;
+  }
+  nav.tree .group-label{font-family:var(--mono);font-size:11px;color:var(--text-2);padding:6px 18px;letter-spacing:.02em;}
+  nav.tree button{
+    display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;
+    color:var(--text-1);font-family:var(--mono);font-size:13px;text-align:left;
+    padding:7px 18px;cursor:pointer;border-left:2px solid transparent;
+  }
+  nav.tree button .ico{opacity:.7;font-size:12px;width:14px;text-align:center;}
+  nav.tree button:hover{background:var(--bg-2);color:var(--text-0);}
+  nav.tree button.active{background:var(--bg-2);color:var(--text-0);border-left-color:var(--blue);}
+  nav.tree button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;}
+
+  main{flex:1 1 auto;overflow-y:auto;min-width:0;}
+
+  .tabbar{
+    display:flex;background:var(--bg-1);border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:12.5px;color:var(--text-1);overflow-x:auto;
+  }
+  .tabbar .tab{padding:9px 18px;border-right:1px solid var(--line);white-space:nowrap;}
+  .tabbar .tab.active{background:var(--bg-0);color:var(--text-0);border-top:2px solid var(--blue);margin-top:-1px;}
+
+  .panel{display:none;padding:40px 48px 80px;max-width:880px;}
+  .panel.active{display:block;}
+  @media (max-width:720px){ .panel{padding:28px 20px 60px;} }
+
+  h1,h2,h3{font-family:var(--sans);font-weight:700;margin:0 0 6px;}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;color:var(--amber);margin:0 0 10px;}
+  p{color:var(--text-1);line-height:1.65;font-size:15px;}
+  .lede{font-size:17px;color:var(--text-0);max-width:60ch;}
+
+  /* profile tab */
+  .hero-name{font-size:38px;letter-spacing:-.01em;}
+  .hero-role{font-family:var(--mono);color:var(--blue);font-size:15px;margin-bottom:22px;}
+  .stat-row{display:flex;gap:28px;margin:30px 0;flex-wrap:wrap;}
+  .stat{font-family:var(--mono);}
+  .stat .n{font-size:26px;color:var(--text-0);font-weight:700;}
+  .stat .l{font-size:12px;color:var(--text-2);}
+  .contact-line{font-family:var(--mono);font-size:13.5px;color:var(--text-1);margin-top:24px;display:flex;gap:18px;flex-wrap:wrap;}
+  .contact-line a{color:var(--text-1);text-decoration:none;border-bottom:1px solid var(--line);}
+  .contact-line a:hover{color:var(--blue);border-color:var(--blue);}
+
+  /* pom.xml / skills */
+  .xml{font-family:var(--mono);font-size:13.5px;line-height:1.85;color:var(--text-1);}
+  .xml .tag{color:var(--blue);}
+  .xml .attr{color:var(--amber);}
+  .xml .txt{color:var(--text-0);}
+  .xml .cm{color:var(--text-2);font-style:italic;}
+  .dep-group{margin-bottom:26px;}
+  .dep-group .gname{font-family:var(--mono);font-size:12px;color:var(--text-2);margin-bottom:8px;padding-left:2px;}
+  .dep{padding:10px 14px;border-left:2px solid var(--line);margin-bottom:6px;background:var(--bg-1);border-radius:0 3px 3px 0;}
+  .dep .id{color:var(--text-0);font-weight:600;}
+  .dep .scope{float:right;font-size:11px;color:var(--text-2);}
+  .dep.learning{border-left-color:var(--amber);}
+  .dep.learning .scope{color:var(--amber);}
+  .dep.core{border-left-color:var(--blue);}
+
+  /* projects */
+  .req{font-family:var(--mono);font-size:13px;color:var(--text-2);margin-bottom:2px;}
+  .req .verb{color:var(--green);font-weight:700;}
+  .card{background:var(--bg-1);border:1px solid var(--line);border-radius:6px;margin-bottom:34px;overflow:hidden;}
+  .card-head{padding:16px 20px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .card-head:hover{background:var(--bg-2);}
+  .card-head h3{font-family:var(--mono);font-size:16px;color:var(--text-0);}
+  .status-pill{font-family:var(--mono);font-size:11px;background:rgba(107,181,131,.12);color:var(--green);padding:3px 8px;border-radius:3px;flex:0 0 auto;}
+  .chev{font-family:var(--mono);color:var(--text-2);transition:transform .18s ease;flex:0 0 auto;}
+  .card.open .chev{transform:rotate(90deg);}
+  .card-body{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .card.open .card-body{max-height:900px;}
+  .card-body-inner{padding:4px 20px 22px;}
+  .card-body-inner p{margin-top:4px;}
+  .json{font-family:var(--mono);font-size:12.5px;line-height:1.8;color:var(--text-1);background:var(--bg-0);border:1px solid var(--line);border-radius:4px;padding:14px 16px;margin:14px 0;overflow-x:auto;}
+  .json .k{color:var(--blue);} .json .s{color:var(--amber);} .json .n{color:var(--green);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px;}
+  .chip{font-family:var(--mono);font-size:11.5px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);padding:3px 8px;border-radius:3px;}
+  .btnrow{margin-top:14px;}
+  .btn{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--bg-0);background:var(--blue);padding:8px 14px;border-radius:4px;text-decoration:none;}
+  .btn:hover{background:#699bff;}
+  .btn.secondary{background:none;border:1px solid var(--line);color:var(--text-1);margin-left:8px;}
+  .btn.secondary:hover{border-color:var(--text-1);color:var(--text-0);}
+  .note{font-size:12.5px;color:var(--text-2);margin-top:12px;font-style:italic;}
+
+  /* experience / git log */
+  .commit{padding:14px 0;border-bottom:1px solid var(--line);}
+  .commit:last-child{border-bottom:none;}
+  .commit .hash{font-family:var(--mono);color:var(--amber);font-size:13px;}
+  .commit .head{font-family:var(--mono);color:var(--green);font-size:12px;}
+  .commit .meta{font-family:var(--mono);font-size:12px;color:var(--text-2);margin:4px 0 6px;}
+  .commit .msg{font-size:15px;color:var(--text-0);}
+  .commit .sub{font-size:13px;color:var(--text-2);margin-top:2px;}
+
+  /* contact tab */
+  .term{font-family:var(--mono);font-size:14px;background:var(--bg-1);border:1px solid var(--line);border-radius:6px;padding:20px 22px;line-height:2;}
+  .term .prompt{color:var(--green);}
+  .term .cmd{color:var(--text-0);}
+  .term .out{color:var(--text-1);}
+  .term a{color:var(--blue);text-decoration:none;}
+  .term a:hover{text-decoration:underline;}
+
+  footer{padding:28px 48px;color:var(--text-2);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line);}
+
+  .menu-btn{display:none;background:none;border:none;color:var(--text-1);font-family:var(--mono);font-size:16px;cursor:pointer;padding:4px 6px;}
+  #scrim{display:none;}
+
+  @media (max-width:720px){
+    .titlebar{gap:10px;}
+    .titlebar .path{display:none;}
+    .titlebar .status span:not(.dot){display:none;}
+    .menu-btn{display:block;}
+    nav.tree{
+      position:fixed;top:38px;left:0;bottom:0;z-index:20;
+      transform:translateX(-100%);transition:transform .2s ease;
+      box-shadow:2px 0 16px rgba(0,0,0,.4);
+    }
+    nav.tree.open{transform:translateX(0);}
+    #scrim.open{display:block;position:fixed;inset:38px 0 0 0;background:rgba(0,0,0,.4);z-index:15;}
+  }
+</style>
 </head>
-
 <body>
-    <!-- Contenido del header -->
-    <div class="contenedor-header">
-        <header>
-            <div class="logo">
-                <a href="#">Heber</a>
-            </div>
-            <nav id="nav">
-                <ul>
-                    <li><a href="#home" onclick="seleccionar()">Home</a></li>
-                    <li><a href="#aboutme" onclick="seleccionar()">About Me</a></li>
-                    <li><a href="#skills" onclick="seleccionar()">Skills</a></li>
-                    <li><a href="#curriculum" onclick="seleccionar()">Curriculum</a></li>
-                    <li><a href="#projects" onclick="seleccionar()">Projects</a></li>
-                    <li><a href="#contact" onclick="seleccionar()">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="nav-responsive" onclick="mostrarOcultarMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-        </header>
-    </div>
-    <!-- Seccion de inicio -->
-    <section id="home" class="inicio">
-        <div class="contenido-banner">
-            <img src="./img/perfil.jpg" alt="img perfil">           
-            <h1>HEBER RAMIREZ</h1>
-            <H2>Software Development - First Year</H2>
-            <div class="redes">
-                <a href="https://www.facebook.com/heber.n.ramirez.1?locale=es_LA" target="_blank"><i
-                        class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/__heber.nahuel/" target="_blank"><i
-                        class="fa-brands fa-instagram"></i></a>
-                <a href="https://x.com/HeberNRamirez" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/hebernr/" target="_blank"><i
-                        class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://github.com/HeberNR" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
+
+<div id="boot"><div id="bootlog"></div></div>
+
+<div id="shell">
+  <div class="titlebar">
+    <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir navegación">☰</button>
+    <div class="path">~/heber-ramirez/portfolio</div>
+    <div class="status"><span class="dot"></span><span>disponible para nuevas oportunidades</span></div>
+  </div>
+
+  <div class="body-row">
+    <div id="scrim"></div>
+    <nav class="tree" id="tree" aria-label="Navegación del portfolio">
+      <div class="group-label">// perfil</div>
+      <button class="tab-btn active" data-tab="profile"><span class="ico">◆</span>profile.md</button>
+      <button class="tab-btn" data-tab="skills"><span class="ico">◆</span>pom.xml</button>
+      <div class="group-label">// projects</div>
+      <button class="tab-btn" data-tab="projects"><span class="ico">◆</span>projects/</button>
+      <div class="group-label">// historial</div>
+      <button class="tab-btn" data-tab="experience"><span class="ico">◆</span>experience.log</button>
+      <div class="group-label">// contacto</div>
+      <button class="tab-btn" data-tab="contact"><span class="ico">◆</span>contact.sh</button>
+    </nav>
+
+    <main>
+      <div class="tabbar" id="tabbar"></div>
+
+      <section class="panel active" id="panel-profile">
+        <p class="eyebrow">// backend developer</p>
+        <h1 class="hero-name">Heber Nahuel Ramirez</h1>
+        <div class="hero-role">Desarrollador de Software Junior — Backend Java</div>
+        <p class="lede">Estudiante del último año de la Tecnicatura Superior en Desarrollo de Software. Construyo aplicaciones Java desde la base de datos hasta el deploy: JDBC, arquitectura por capas, testing y CI/CD con Docker y GitHub Actions. Ahora profundizando en Spring Boot y Spring Security.</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="n">81%</div><div class="l">cobertura de tests en MediTurnos</div></div>
+          <div class="stat"><div class="n">2</div><div class="l">proyectos web Java en producción propia</div></div>
+          <div class="stat"><div class="n">4+</div><div class="l">años de experiencia laboral previa</div></div>
         </div>
-    </section>
 
-    <!-- Seccion sobre mi -->
-    <section id="aboutme" class="sobremi">
-        <div class="contenido-seccion">
-            <h2>About Me</h2>
-            <p><span> Hello, my name is Heber Ramirez and I am 28 years old.</span> I'm a
-                software development student, currently I'm in my first year of my degree. I have knowledge in some
-                languages like Python & Django, HTML & CSS among others. I like to spend time on my pc, either for
-                programming or playing games, I like motorcycles and watching soccer. I am self-taught and enthusiastic,
-                I have good use of soft skills like teamwork and communication.</p>
+        <p>Antes de orientarme a desarrollo pasé varios años en atención al cliente, ventas y coordinación de equipos — de ahí vienen la disciplina y la responsabilidad con la que encaro cada proyecto hoy.</p>
 
-            <div class="fila">
-                <!-- Mis datos personales -->
-                <div class="col">
-                    <h3>Personal Data</h3>
-                    <ul>
-                        <li>
-                            <strong>Birthday</strong>
-                            04-04-1996
-                        </li>
-                        <li>
-                            <strong>Phone</strong>
-                            3482 605057
-                        </li>
-                        <li>
-                            <strong>E-mail</strong>
-                            heber96nr@gmail.com
-                        </li>
-                        <li>
-                            <strong>Website</strong>
-                            www.example.com
-                        </li>
-                        <li>
-                            <strong>Adress</strong>
-                            Calle 4 S/N, Las Toscas - Santa Fe
-                        </li>
-                        <li>
-                            <strong>Position</strong>
-                            <span>Student - 1st year TSDS</span>
-                        </li>
-                    </ul>
-                </div>
+        <div class="contact-line">
+          <a href="mailto:heber96nr@gmail.com">heber96nr@gmail.com</a>
+          <a href="tel:+543482605057">+54 3482 60-5057</a>
+          <a href="https://github.com/HeberNR" target="_blank" rel="noopener">github.com/HeberNR</a>
+          <span>Las Toscas, Santa Fe, Argentina</span>
+        </div>
+      </section>
 
-                <!-- Mis intereses -->
-                <div class="col">
-                    <h3>Intereses</h3>
-                    <div class="contenedor-intereses">
-                        <div class="intereses">
-                            <i class="fa-solid fa-gamepad"></i>
-                            <span>GAMES</span>
-                        </div>
-                        <div class="intereses">
-                            <i class="fa-solid fa-music"></i>
-                            <span>MUSIC</span>
-                        </div>
-                        <div class="intereses">
-                            <i class="fa-regular fa-futbol"></i>
-                            <span>SOCCER</span>
-                        </div>
-                        <div class="intereses">
-                            <i class="fa-solid fa-code"></i>
-                            <span>PROGRAM</span>
-                        </div>
-                        <div class="intereses">
-                            <i class="fa-solid fa-motorcycle"></i>
-                            <span>MOTORCYCLE</span>
-                        </div>
-                    </div>
-                </div>
+      <section class="panel" id="panel-skills">
+        <p class="eyebrow">// dependencies</p>
+        <h2>Stack técnico</h2>
+        <p>Organizado como las dependencias de un proyecto Maven: lo que ya domino como <span style="color:var(--blue)">core</span>, y lo que estoy incorporando como <span style="color:var(--amber)">learning</span>.</p>
+
+        <div class="dep-group">
+          <div class="gname">groupId: backend</div>
+          <div class="dep core"><span class="id">java</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">jdbc · servlets · jsp</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">arquitectura dao / por capas</span><span class="scope">core</span></div>
+          <div class="dep learning"><span class="id">spring-boot</span><span class="scope">learning</span></div>
+          <div class="dep learning"><span class="id">spring-security</span><span class="scope">learning</span></div>
+        </div>
+
+        <div class="dep-group">
+          <div class="gname">groupId: persistence</div>
+          <div class="dep core"><span class="id">mysql</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">hikaricp</span><span class="scope">core</span></div>
+        </div>
+
+        <div class="dep-group">
+          <div class="gname">groupId: frontend</div>
+          <div class="dep core"><span class="id">html5 · css · javascript</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">angular</span><span class="scope">core</span></div>
+        </div>
+
+        <div class="dep-group">
+          <div class="gname">groupId: quality</div>
+          <div class="dep core"><span class="id">junit</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">jacoco</span><span class="scope">core</span></div>
+        </div>
+
+        <div class="dep-group">
+          <div class="gname">groupId: devops</div>
+          <div class="dep core"><span class="id">docker · docker-compose</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">maven</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">apache-tomcat</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">github-actions</span><span class="scope">core</span></div>
+          <div class="dep core"><span class="id">git · linux</span><span class="scope">core</span></div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-projects">
+        <p class="eyebrow">// GET /projects</p>
+        <h2>Proyectos</h2>
+
+        <div class="card open" id="card-mediturnos">
+          <div class="card-head" onclick="toggleCard('card-mediturnos')">
+            <div>
+              <div class="req"><span class="verb">GET</span> /projects/mediturnos</div>
+              <h3>MediTurnos</h3>
             </div>
-            <button>
-                Download CV <i class="fa-regular fa-circle-down"></i>
-                <span class="overlay"></span>
-            </button>
-        </div>
-    </section>
-
-    <!-- Seccion de mis "skills"-->
-    <section id="skills" class="skills">
-        <div class="contenido-seccion">
-            <h2>Skills</h2>
-            <div class="fila">
-                <!-- Skills tecnicas -->
-                <div class="col">
-                    <h3>Technical Skills</h3>
-                    <div class="skills">
-                        <span>Javascript</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>40%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>HTML & CSS</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>70%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Python & Django</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>55%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Git & GitHub</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>40%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>C#</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>30%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Blender</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>50%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <h3>Soft Skills</h3>
-                    <div class="skills">
-                        <span>Communication</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>75%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Team Work</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>85%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Self-taught</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>85%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Incentive</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>90%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills">
-                        <span>Dedication</span>
-                        <div class="barra-skills">
-                            <div class="progreso">
-                                <span>85%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <span class="status-pill">200 OK</span>
+            <span class="chev">▸</span>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <p>Sistema de gestión de turnos médicos, desarrollado individualmente con arquitectura por capas (DAO / Service / Servlet) sobre Servlets y JSP.</p>
+              <div class="json">{
+  <span class="k">"persistencia"</span>: <span class="s">"JDBC + MySQL"</span>,
+  <span class="k">"pool_conexiones"</span>: <span class="s">"HikariCP"</span>,
+  <span class="k">"entorno"</span>: <span class="s">"Docker + Docker Compose"</span>,
+  <span class="k">"build"</span>: <span class="s">"Maven"</span>,
+  <span class="k">"tests"</span>: <span class="s">"JUnit"</span>,
+  <span class="k">"cobertura"</span>: <span class="n">"~81%"</span> <span class="cm">// medida con JaCoCo</span>,
+  <span class="k">"ci_cd"</span>: <span class="s">"GitHub Actions"</span>
+}</div>
+              <div class="chips">
+                <span class="chip">Java</span><span class="chip">JDBC</span><span class="chip">MySQL</span>
+                <span class="chip">HikariCP</span><span class="chip">Docker</span><span class="chip">JUnit</span>
+                <span class="chip">JaCoCo</span><span class="chip">GitHub Actions</span>
+              </div>
+              <div class="btnrow">
+                <a class="btn" href="https://github.com/HeberNR/MediTurnos" target="_blank" rel="noopener">Ver repositorio</a>
+              </div>
+              <p class="note">En mejora activa — algunos commits recientes todavía no están pusheados.</p>
             </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Seccion de mi CV-->
-    <section id="curriculum" class="curriculum">
-        <div class="contenido-seccion">
-            <h2>Curriculum</h2>
-            <div class="fila">
-                <div class="col izquierda">
-                    <h3>Education</h3>
-                    <div class="item izq">
-                        <h4>Python & Django</h4>
-                        <span class="casa">Course Informatorio - Resistencia, Chaco</span>
-                        <span class="fecha">04/2022 - 08/2022</span>
-                    </div>
-                    <div class="item izq">
-                        <h4>Version Control Git & GitHub</h4>
-                        <span class="casa">Course Informatorio - Resistencia, Chaco</span>
-                        <span class="fecha">04/2022 - 08/2022</span>
-                    </div>
-                    <div class="item izq">
-                        <h4>C#</h4>
-                        <span class="casa">Video game developer course - Resistencia, Chaco</span>
-                        <span class="fecha">12/2021 - 03/2022</span>
-                    </div>
-                    <div class="item izq">
-                        <h4>Blender</h4>
-                        <span class="casa">UTN course on "Video Game Developer"</span>
-                        <span class="fecha">12/2021 - 03/2022</span>
-                    </div>
-                </div>
-
-                <div class="col derecha">
-                    <h3 class="experiencia">Work Experience</h3>
-                    <div class="item der">
-                        <h4>Customer Service</h4>
-                        <span class="casa">Konecta</span>
-                        <span class="fecha">11/2020 - 11/2022</span>
-                    </div>
-                    <div class="item der">
-                        <h4>Car salesman</h4>
-                        <span class="casa">Plan Auto</span>
-                        <span class="fecha">05/2019 - 03/2020</span>
-                    </div>
-                    <div class="item der">
-                        <h4>Customer Service</h4>
-                        <span class="casa">Atento</span>
-                        <span class="fecha">11/2016 - 08/2018</span>
-                    </div>
-                </div>
+        <div class="card" id="card-prode">
+          <div class="card-head" onclick="toggleCard('card-prode')">
+            <div>
+              <div class="req"><span class="verb">GET</span> /projects/prode-mundial</div>
+              <h3>Prode del Mundial</h3>
             </div>
-        </div>
-    </section>
-
-    <!-- Seccion del portfolio-->
-    <section id="projects" class="portfolio">
-        <div class="contenido-seccion">
-            <h2>Projects</h2>
-            <div class="galeria">
-                <div class="proyecto">
-                    <a href="https://ramirez1.netlify.app/" target="_blank">
-                        <img src="./img/portfolio1.png" alt="">
-                        <div class="overlay">
-                            <h3>First design with HTML & CSS</h3>
-                            <p>Freelancer prototype</p>
-                        </div>
-                    </a>
-                </div>
+            <span class="status-pill">200 OK</span>
+            <span class="chev">▸</span>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <p>Aplicación web de pronósticos para partidos del Mundial, desarrollada en equipo con compañeros de la Tecnicatura y desplegada en hosting. Mismo stack que MediTurnos.</p>
+              <div class="json">{
+  <span class="k">"tipo"</span>: <span class="s">"proyecto grupal"</span>,
+  <span class="k">"stack"</span>: <span class="s">"Java, Servlets, JSP, JDBC, MySQL"</span>,
+  <span class="k">"mi_rol"</span>: <span class="s">"desarrollo colaborativo, control de versiones con Git/GitHub"</span>
+}</div>
+              <div class="chips">
+                <span class="chip">Java</span><span class="chip">Servlets</span><span class="chip">JSP</span>
+                <span class="chip">JDBC</span><span class="chip">MySQL</span><span class="chip">trabajo en equipo</span>
+              </div>
+              <div class="btnrow">
+                <span class="chip" style="background:none;border-color:var(--red);color:var(--red);">repositorio privado</span>
+              </div>
+              <p class="note">Repositorio compartido del equipo (privado) — no es de mi propiedad individual. Código disponible a pedido.</p>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Seccion contacto-->
-    <section id="contact" class="contacto">
-        <div class="contenido-seccion">
-            <h2>Contact</h2>
-            <div class="fila">
-                <!-- Acá está mi formulario -->
-                <div class="col">
-                    <input type="text" placeholder="Your Name">
-                    <input type="text" placeholder="Number phone">
-                    <input type="text" placeholder="E-mail">
-                    <input type="text" placeholder="Topic">
-                    <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
-                    <button>
-                        Send Message <i class="fa-solid fa-paper-plane"></i>
-                        <span class="overlay"></span>
-                    </button>
-                </div>
-                <!-- Mapa -->
-                <div class="col">
-                    <img src="img/domicilio.png" alt="">
-                    <div class="info">
-                        <ul>
-                            <li>
-                                <i class="fa-solid fa-location-dot"></i>
-                                Street 4, Las Toscas - Santa Fe
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <i class="fa-solid fa-mobile"></i>
-                                Call me: 3482 605057
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <i class="fa-solid fa-envelope"></i>
-                                E-mail: heber96nr@gmail.com
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <section class="panel" id="panel-experience">
+        <p class="eyebrow">// git log --reverse-chronological</p>
+        <h2>Experiencia</h2>
+
+        <div class="commit">
+          <div><span class="hash">#4a1f0c9</span> <span class="head">(HEAD -&gt; main)</span></div>
+          <div class="meta">Estudio Contable Rolando Zilinskas · 2024 – actualidad</div>
+          <div class="msg">Carga de datos administrativos y contables</div>
+          <div class="sub">Carga de comprobantes de ventas y compras en el sistema ARCA para distintos clientes del estudio.</div>
         </div>
-    </section>
 
-    <!-- Footer-->
-    <footer>
-        <a href="#home" class="arriba">
-            <i class="fa-solid fa-angles-up"></i>
-        </a>
-        <div class="redes">
-            <a href="https://www.facebook.com/heber.n.ramirez.1?locale=es_LA"><i
-                    class="fa-brands fa-facebook-f"></i></a>
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#"><i class="fa-brands fa-github"></i></a>
+        <div class="commit">
+          <div><span class="hash">#7d82be1</span></div>
+          <div class="meta">Konecta Argentina · 2020 – 2021</div>
+          <div class="msg">Atención al cliente y soporte técnico</div>
+          <div class="sub">Soporte de primera línea para Telecentro; instalación de software y configuración de POS para PedidosYa.</div>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="commit">
+          <div><span class="hash">#0f6ac33</span></div>
+          <div class="meta">PlanAuto · 2019 – 2020</div>
+          <div class="msg">Vendedor → Líder de grupo</div>
+          <div class="sub">Venta puerta a puerta; luego a cargo de planificación de zonas, coordinación de equipo y objetivos comerciales.</div>
+        </div>
+
+        <div class="commit">
+          <div><span class="hash">#c391a05</span></div>
+          <div class="meta">Atento Argentina · 2017 – 2018</div>
+          <div class="msg">Atención al cliente / soporte técnico de primera línea</div>
+          <div class="sub">Soporte de línea fija e internet domiciliario para Movistar; gestión de visitas técnicas y venta cruzada.</div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-contact">
+        <p class="eyebrow">// ./contact.sh</p>
+        <h2>Contacto</h2>
+        <div class="term">
+<span class="prompt">$</span> <span class="cmd">cat contact.sh</span><br>
+<span class="out">email    </span> → <a href="mailto:heber96nr@gmail.com">heber96nr@gmail.com</a><br>
+<span class="out">tel      </span> → <a href="tel:+543482605057">+54 3482 60-5057</a><br>
+<span class="out">github   </span> → <a href="https://github.com/HeberNR" target="_blank" rel="noopener">github.com/HeberNR</a><br>
+<span class="out">ubicación</span> → Las Toscas, Santa Fe, Argentina<br>
+<span class="out">idiomas  </span> → Español (nativo), Inglés (básico)<br><br>
+<span class="prompt">$</span> <span class="cmd">echo $DISPONIBILIDAD</span><br>
+<span class="out">Abierto a oportunidades como desarrollador Backend Java Junior.</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>heber-ramirez/portfolio · construido a mano, sin frameworks</footer>
+</div>
+
+<script>
+  // ---- boot sequence ----
+  const bootLines = [
+    "$ ./start-portfolio.sh",
+    "Iniciando entorno de Heber Ramirez...",
+    "[INFO] Cargando perfil............... OK",
+    "[INFO] Conectando a MySQL............ OK",
+    "[INFO] Inicializando HikariCP........ OK",
+    "[INFO] Levantando Apache Tomcat...... OK",
+    "[INFO] Ejecutando suite JUnit........ 81% cobertura",
+    "[INFO] Pipeline GitHub Actions....... PASSED",
+    "[INFO] Servidor disponible en :8080",
+    "$ portfolio ready"
+  ];
+
+  const bootEl = document.getElementById('boot');
+  const logEl = document.getElementById('bootlog');
+  const shell = document.getElementById('shell');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function finishBoot(){
+    bootEl.classList.add('hidden');
+    shell.classList.add('ready');
+  }
+
+  if (reduceMotion) {
+    finishBoot();
+  } else {
+    let i = 0;
+    function typeLine(){
+      if (i >= bootLines.length){ setTimeout(finishBoot, 350); return; }
+      const line = document.createElement('div');
+      logEl.appendChild(line);
+      let c = 0;
+      const text = bootLines[i];
+      const speed = text.startsWith('$') ? 34 : 10;
+      const interval = setInterval(() => {
+        line.textContent = text.slice(0, c+1);
+        c++;
+        if (c >= text.length){
+          clearInterval(interval);
+          i++;
+          setTimeout(typeLine, text.startsWith('$') ? 220 : 90);
+        }
+      }, speed);
+    }
+    typeLine();
+    setTimeout(finishBoot, 6500); // safety cap
+  }
+
+  // ---- tab nav ----
+  const tabs = [
+    {id:'profile', label:'profile.md'},
+    {id:'skills', label:'pom.xml'},
+    {id:'projects', label:'projects/'},
+    {id:'experience', label:'experience.log'},
+    {id:'contact', label:'contact.sh'},
+  ];
+  const tabbar = document.getElementById('tabbar');
+  tabs.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'tab' + (t.id === 'profile' ? ' active' : '');
+    el.textContent = t.label;
+    el.dataset.tab = t.id;
+    tabbar.appendChild(el);
+  });
+
+  function setTab(id){
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.tabbar .tab').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+    document.querySelector('main').scrollTop = 0;
+  }
+  document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => { setTab(b.dataset.tab); closeMenu(); }));
+  tabbar.addEventListener('click', (e) => { if (e.target.dataset.tab) setTab(e.target.dataset.tab); });
+
+  // ---- mobile menu ----
+  const treeEl = document.getElementById('tree');
+  const scrimEl = document.getElementById('scrim');
+  const menuBtn = document.getElementById('menuBtn');
+  function openMenu(){ treeEl.classList.add('open'); scrimEl.classList.add('open'); }
+  function closeMenu(){ treeEl.classList.remove('open'); scrimEl.classList.remove('open'); }
+  menuBtn.addEventListener('click', () => treeEl.classList.contains('open') ? closeMenu() : openMenu());
+  scrimEl.addEventListener('click', closeMenu);
+
+  function toggleCard(id){
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+
 </body>
-
 </html>
